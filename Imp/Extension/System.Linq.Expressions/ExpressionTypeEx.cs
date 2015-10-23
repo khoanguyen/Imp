@@ -9,7 +9,9 @@ namespace System.Linq.Expressions
     public enum ExpressionTypeEx
     {
         Insert,
-        Delete,
-        Update
+        DeleteObject,
+        DeletePredicate,
+        UpdatePredicate,
+        UpdateObject
     }
 }

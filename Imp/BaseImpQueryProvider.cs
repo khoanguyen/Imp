@@ -29,5 +29,9 @@ namespace Imp
         public abstract TResult Execute<TResult>(System.Linq.Expressions.Expression expression);
 
         public abstract object Execute(System.Linq.Expressions.Expression expression);
+        
+        public abstract object Execute(System.Linq.Expressions.Expression expression, System.Data.IDbConnection dbConnection);
+
+        public abstract TResult Execute<TResult>(System.Linq.Expressions.Expression expression, System.Data.IDbConnection dbConnection);
     }
 }

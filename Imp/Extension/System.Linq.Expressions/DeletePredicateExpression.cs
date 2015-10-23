@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace System.Linq.Expressions
 {
-    public class DeleteExpression : ExtendedExpression
+    public class DeletePredicateExpression : ExtendedExpression
     {
         public Expression Predicate { get; private set; }
 
-        public DeleteExpression(Expression predicate, Type type)
-            : base(ExpressionTypeEx.Delete, type)
+        internal DeletePredicateExpression(Expression predicate, Type type)
+            : base(ExpressionTypeEx.DeleteObject, type)
         {
-            Predicate = predicate;
+            Predicate = predicate;            
         }
     }
 }

@@ -9,6 +9,20 @@ namespace Imp
 {
     public class ImpContextConfiguration
     {
+        private static Dictionary<string, ImpContextConfiguration> _cache = new Dictionary<string, ImpContextConfiguration>();
+
+        public static ImpContextConfiguration GetConfig(string connectionStringName)
+        {
+            if (_cache.ContainsKey(connectionStringName)) return _cache[connectionStringName];
+
+            return new ImpContextConfiguration(connectionStringName);
+        }
+
+        public static void ClearCache()
+        {
+            _cache.Clear();
+        }
+
         public string ConnectionString { get; private set; }
         public string ProviderName { get; private set; }
         public IImpProvider Provider { get; private set; }
@@ -32,12 +46,21 @@ namespace Imp
             ConnectionString = connStrItem.ConnectionString;
             ProviderName = connStrItem.ProviderName;
             ValidateProvider(ProviderName);
-            Provider = (IImpProvider)Activator.CreateInstance(Type.GetType(ProviderName));
+            Provider = (IImpProvider)Activator.CreateInstance(Type.GetType(ProviderName), this);
         }
 
         private static void ValidateProvider(string providerName)
         {
+            Func<Type, bool> predicate = t => t.FullName == providerName;
+
+            //var providerType = AppDomain.CurrentDomain
+            //                            .GetAssemblies()
+            //                            .Where(asm => asm.GetTypes().Any(predicate))
+            //                            .SelectMany(asm => asm.GetTypes())
+            //                            .SingleOrDefault(predicate);
+
             var providerType = Type.GetType(providerName);
+
             if (providerType == null)
             {
                 throw new ImpConfigException("Invlaid provider name");

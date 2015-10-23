@@ -34,60 +34,64 @@ namespace Imp
         {
             _context = context;
             _provider = provider;
-            _expression = Expression.Constant(this);
+            _expression = Expression.Constant(null, typeof(TModel));
         }
 
         public void Delete(TModel item)
         {
-            throw new NotImplementedException();
+            Delete(new[] { item });
         }
 
         public void Delete(IEnumerable<TModel> items)
         {
-            throw new NotImplementedException();
+            var expression = new DeleteObjectExpression(items.Cast<object>().ToArray(), typeof(TModel));
+            _context.QueueExpression(expression);
         }
 
         public void Delete(Expression<Func<TModel, bool>> predicate)
         {
-            var expression = new DeleteExpression(predicate, typeof(TModel));
+            var expression = new DeletePredicateExpression(predicate, typeof(TModel));
             _context.QueueExpression(expression);
         }
 
         public void Insert(TModel item, bool updateItem = true)
         {
-            throw new NotImplementedException();
+            Insert(new[] { item }, updateItem);
         }
 
         public void Insert(IEnumerable<TModel> item, bool updateItem = true)
         {
-            var expression = new InsertExpression<TModel>(item, updateItem);
+            var expression = new InsertExpression(item.Cast<object>().ToArray(), updateItem, typeof(TModel));
             _context.QueueExpression(expression);
         }
 
         public void Update(TModel item)
         {
-            throw new NotImplementedException();
+            Update(new[] {item});
         }
 
-        public void Update(IEnumerable<TModel> item)
+        public void Update(IEnumerable<TModel> items)
         {
-            throw new NotImplementedException();
+            var expression = new UpdateObjectExpression(items.Cast<object>().ToArray(), typeof(TModel));
+            _context.QueueExpression(expression);
         }
 
         public void Update(Expression<Func<TModel, bool>> predicate, Expression<Action<TModel>> update)
         {
-            var expression = new UpdateExpression<TModel>(predicate, update);
+            var expression = new UpdatePredicateExpression(predicate, update, typeof(TModel));
             _context.QueueExpression(expression);
         }
                 
         public string GetQueryText()
         {
-            throw new NotImplementedException();
+            return _provider.GetQueryText(_expression);
         }
 
         public IEnumerator<TModel> GetEnumerator()
         {
-            return _provider.Execute<IEnumerable<TModel>>(this.Expression).GetEnumerator();
+            var result = _provider.Execute<IEnumerable<TModel>>(this.Expression);
+            return result.GetEnumerator();
+            //return _provider.Execute<IEnumerable<TModel>>(this.Expression).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

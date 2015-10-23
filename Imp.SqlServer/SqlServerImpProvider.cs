@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,11 +13,17 @@ namespace Imp.SqlServer
     {
         private SqlServerImpQueryProvider _queryProvider;
 
-        public SqlServerImpProvider(ImpContextConfiguration config) : base(config) { }
+        internal ImpContextConfiguration ImpConfig
+        {
+            get { return base.Config; }
+        }
+
+        public SqlServerImpProvider(ImpContextConfiguration config)
+            : base(config) { }
 
         public override IImpQueryProvider GetQueryProvider()
-        {
-            return _queryProvider ?? (_queryProvider = new SqlServerImpQueryProvider());
+        {            
+            return _queryProvider ?? (_queryProvider = new SqlServerImpQueryProvider(this));
         }
         
         public override System.Data.IDbConnection CreateConnection()

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Imp
 {
     
-    public abstract class ImpContext : IImpContext
+    public abstract class ImpContext : IImpContext, IDisposable
     {
         private readonly Queue<Expression> _changeQueue = new Queue<Expression>();
 
@@ -21,7 +21,7 @@ namespace Imp
 
         protected ImpContext()
         {
-            Configuration = new ImpContextConfiguration(GetDefaultConnectionStringName(this));
+            Configuration = ImpContextConfiguration.GetConfig(GetDefaultConnectionStringName(this));
             Initialize();
         }
 
@@ -87,6 +87,11 @@ namespace Imp
         private static string GetDefaultConnectionStringName(object target)
         {
             return target.GetType().Name;
+        }
+
+        public void Dispose()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

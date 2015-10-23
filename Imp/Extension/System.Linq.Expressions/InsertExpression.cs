@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace System.Linq.Expressions
 {
-    public class InsertExpression<T> : ExtendedExpression
+    public class InsertExpression : ExtendedExpression
     {
-        public IEnumerable<T> InsertedObjects { get; private set; }
+        public ConstantExpression InsertedObjects { get; private set; }
 
         public bool UpdateItem { get; private set; }
 
-        public InsertExpression(IEnumerable<T> inserted, bool updateItem)
-            : base(ExpressionTypeEx.Insert, typeof(T))
+        internal InsertExpression(object[] inserted, bool updateItem, Type type)
+            : base(ExpressionTypeEx.Insert, type)
         {
-            InsertedObjects = inserted;
+            InsertedObjects = Expression.Constant(inserted);
             UpdateItem = updateItem;
         }
     }

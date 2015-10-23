@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A43CF44E-96A7-47D2-AFF3-412750257097}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{8E999299-1311-46CB-87B5-DC1B87B34DEC}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Imp</RootNamespace>
-    <AssemblyName>Imp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>TestClient</RootNamespace>
+    <AssemblyName>TestClient</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -20,9 +22,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Imp.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,7 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,28 +42,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseImpProvider.cs" />
-    <Compile Include="BaseImpQueryProvider.cs" />
-    <Compile Include="Exceptions\ImpConfigException.cs" />
-    <Compile Include="Exceptions\ImpException.cs" />
-    <Compile Include="Extension\System.Linq.Expressions\DeleteObjectExpression.cs" />
-    <Compile Include="Extension\System.Linq.Expressions\DeletePredicateExpression.cs" />
-    <Compile Include="Extension\System.Linq.Expressions\ExpressionTypeEx.cs" />
-    <Compile Include="Extension\System.Linq.Expressions\ExtendedExpression.cs" />
-    <Compile Include="Extension\System.Linq.Expressions\InsertExpression.cs" />
-    <Compile Include="Extension\System.Linq.Expressions\UpdateObjectExpression.cs" />
-    <Compile Include="Extension\System.Linq.Expressions\UpdatePredicateExpression.cs" />
-    <Compile Include="IImpContext.cs" />
-    <Compile Include="IImpDataGateway.cs" />
-    <Compile Include="IImpProvider.cs" />
-    <Compile Include="IImpQueryable.cs" />
-    <Compile Include="IImpQueryProvider.cs" />
-    <Compile Include="ImpConfigEventArgs.cs" />
-    <Compile Include="ImpContext.cs" />
-    <Compile Include="ImpContextConfiguration.cs" />
-    <Compile Include="ImpDataGateway.cs" />
-    <Compile Include="Internal\ImpQueryable.cs" />
+    <Compile Include="Model\Student.cs" />
+    <Compile Include="Model\TestDBContext.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Imp.SqlServer\Imp.SqlServer.csproj">
+      <Project>{5a439d7f-6ed1-4c88-a80a-0fe4955a51ab}</Project>
+      <Name>Imp.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Imp\Imp.csproj">
+      <Project>{a43cf44e-96a7-47d2-aff3-412750257097}</Project>
+      <Name>Imp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
